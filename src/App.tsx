@@ -17,7 +17,11 @@ import {
   ChevronRight,
   HelpCircle,
   FileSpreadsheet,
-  FileText
+  FileText,
+  Menu,
+  Lock,
+  Unlock,
+  Download
 } from 'lucide-react';
 import { 
   PieChart, 
@@ -63,6 +67,43 @@ export default function App() {
   });
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  // Lock Mechanism State
+  const [isLocked, setIsLocked] = useState(true);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+
+  const LOCK_PASSWORD = '720419Mastig2026';
+  const LOCK_DURATION_MS = 90 * 24 * 60 * 60 * 1000; // 90 days in milliseconds
+
+  const checkLockStatus = () => {
+    const expiry = localStorage.getItem('mastig_unlock_expiry');
+    if (expiry) {
+      const expiryTime = parseInt(expiry, 10);
+      if (Date.now() < expiryTime) {
+        setIsLocked(false);
+        return false;
+      }
+    }
+    setIsLocked(true);
+    return true;
+  };
+
+  const handleUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === LOCK_PASSWORD) {
+      const newExpiry = Date.now() + LOCK_DURATION_MS;
+      localStorage.setItem('mastig_unlock_expiry', newExpiry.toString());
+      setIsLocked(false);
+      setPasswordError(false);
+      setPasswordInput('');
+      fetchData();
+    } else {
+      setPasswordError(true);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -88,12 +129,46 @@ export default function App() {
     }
   };
 
+  const formatTimeLeft = (ms: number) => {
+    if (ms <= 0) return 'Expirado';
+    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  };
+
   useEffect(() => {
-    fetchData();
-    
-    const handleClickOutside = () => setShowSuggestions(false);
-    window.addEventListener('click', handleClickOutside);
-    return () => window.removeEventListener('click', handleClickOutside);
+    const locked = checkLockStatus();
+    if (!locked) {
+      fetchData();
+      
+      const updateTimer = () => {
+        const expiry = localStorage.getItem('mastig_unlock_expiry');
+        if (expiry) {
+          const remaining = parseInt(expiry, 10) - Date.now();
+          if (remaining > 0) {
+            setTimeLeft(remaining);
+          } else {
+            setIsLocked(true);
+          }
+        }
+      };
+      
+      updateTimer();
+      const intervalId = setInterval(updateTimer, 1000);
+      
+      const handleClickOutside = () => setShowSuggestions(false);
+      window.addEventListener('click', handleClickOutside);
+      return () => {
+        clearInterval(intervalId);
+        window.removeEventListener('click', handleClickOutside);
+      };
+    } else {
+      const handleClickOutside = () => setShowSuggestions(false);
+      window.addEventListener('click', handleClickOutside);
+      return () => window.removeEventListener('click', handleClickOutside);
+    }
   }, []);
 
   const handleCreateOrder = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -185,6 +260,26 @@ export default function App() {
       setHistoryTag(tag);
     } catch (error) {
       console.error('Error fetching history:', error);
+    }
+  };
+
+  const handleBackupDatabase = async () => {
+    try {
+      const response = await fetch('/api/backup');
+      if (!response.ok) throw new Error('Falha ao baixar backup');
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `mastig_backup_${format(new Date(), 'yyyy-MM-dd')}.db`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Erro no backup:', error);
+      alert('Não foi possível realizar o backup do banco de dados.');
     }
   };
 
@@ -345,18 +440,108 @@ export default function App() {
     return matchesSearch && matchesStatus;
   });
 
+  if (isLocked) {
+    return (
+      <div className="flex h-screen bg-slate-900 font-sans items-center justify-center p-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
+        >
+          <div className="flex justify-center mb-6">
+            <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+              <Lock size={32} />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-center text-slate-800 mb-2">Sistema Bloqueado</h2>
+          <p className="text-center text-slate-500 mb-8 text-sm">
+            Por favor, insira a senha de acesso para liberar o uso do sistema pelos próximos 90 dias.
+          </p>
+          
+          <form onSubmit={handleUnlock} className="space-y-4">
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">Senha de Acesso</label>
+              <input 
+                type="password" 
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setPasswordError(false);
+                }}
+                className={cn(
+                  "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all",
+                  passwordError 
+                    ? "border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50" 
+                    : "border-slate-300 focus:ring-blue-500 focus:border-blue-500"
+                )}
+                placeholder="Insira a senha"
+                autoFocus
+              />
+              {passwordError && (
+                <p className="text-red-500 text-xs mt-2 font-medium">Senha incorreta. Tente novamente.</p>
+              )}
+            </div>
+            <button 
+              type="submit" 
+              className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2"
+            >
+              <Unlock size={18} />
+              Desbloquear Sistema
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex h-screen bg-gray-100 font-sans text-gray-900">
+    <div className="flex h-screen bg-gray-100 font-sans text-gray-900 overflow-hidden">
+      
+      {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-slate-900 flex items-center justify-between px-4 z-40 shadow-md">
+        <h1 className="text-xl font-bold tracking-tight text-blue-400 truncate">Mastig Manutenção</h1>
+        <button 
+          onClick={() => setIsSidebarOpen(true)}
+          className="text-white p-2 hover:bg-slate-800 rounded-lg transition-colors"
+        >
+          <Menu size={24} />
+        </button>
+      </div>
+
+      {/* Sidebar Overlay for Mobile */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="md:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-white flex flex-col shadow-xl">
-        <div className="p-6 border-b border-slate-800">
-          <h1 className="text-2xl font-bold tracking-tight text-blue-400">Mastig - Manutenção industrial</h1>
-          <p className="text-xs text-slate-400 mt-1">Gestão de Manutenção</p>
+      <aside className={cn(
+        "fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col shadow-xl transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0",
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="p-6 border-b border-slate-800 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-blue-400">Mastig</h1>
+            <p className="text-xs text-slate-400 mt-1">Gestão de Manutenção</p>
+          </div>
+          <button 
+            onClick={() => setIsSidebarOpen(false)}
+            className="md:hidden text-slate-400 hover:text-white p-1"
+          >
+            <X size={20} />
+          </button>
         </div>
         
         <nav className="flex-1 p-4 space-y-2">
           <button 
-            onClick={() => setActiveTab('dashboard')}
+            onClick={() => { setActiveTab('dashboard'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
               activeTab === 'dashboard' ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" : "text-slate-400 hover:bg-slate-800 hover:text-white"
@@ -367,7 +552,7 @@ export default function App() {
           </button>
           
           <button 
-            onClick={() => setActiveTab('new')}
+            onClick={() => { setActiveTab('new'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
               activeTab === 'new' ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" : "text-slate-400 hover:bg-slate-800 hover:text-white"
@@ -378,7 +563,7 @@ export default function App() {
           </button>
           
           <button 
-            onClick={() => setActiveTab('list')}
+            onClick={() => { setActiveTab('list'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
               activeTab === 'list' ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" : "text-slate-400 hover:bg-slate-800 hover:text-white"
@@ -389,7 +574,7 @@ export default function App() {
           </button>
 
           <button 
-            onClick={() => setActiveTab('database')}
+            onClick={() => { setActiveTab('database'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
               activeTab === 'database' ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" : "text-slate-400 hover:bg-slate-800 hover:text-white"
@@ -427,7 +612,7 @@ export default function App() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-8">
+      <main className="flex-1 overflow-y-auto w-full pt-16 md:pt-0 p-4 md:p-8">
         <AnimatePresence mode="wait">
           {activeTab === 'dashboard' && (
             <motion.div 
@@ -442,13 +627,29 @@ export default function App() {
                   <h2 className="text-3xl font-bold text-slate-800">Painel Geral</h2>
                   <p className="text-slate-500">Visão geral das atividades de manutenção</p>
                 </div>
-                <button 
-                  onClick={() => setShowHelpModal(true)}
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium bg-blue-50 px-4 py-2 rounded-lg transition-all"
-                >
-                  <HelpCircle size={20} />
-                  <span>Ajuda</span>
-                </button>
+                <div className="flex flex-col items-end gap-1">
+                  <div className="flex items-center gap-3">
+                    {timeLeft !== null && (
+                      <div className="hidden sm:flex text-[10px] text-slate-400 font-medium items-center gap-1.5 uppercase tracking-wider px-2 py-1 rounded bg-slate-200/50" title="Tempo restante para bloqueio de segurança">
+                        <Lock size={10} className="text-slate-500" />
+                        {formatTimeLeft(timeLeft)}
+                      </div>
+                    )}
+                    <button 
+                      onClick={() => setShowHelpModal(true)}
+                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium bg-blue-50 px-4 py-2 rounded-lg transition-all"
+                    >
+                      <HelpCircle size={20} />
+                      <span>Ajuda</span>
+                    </button>
+                  </div>
+                  {timeLeft !== null && (
+                    <div className="sm:hidden text-[9px] text-slate-400 font-medium flex items-center gap-1 uppercase tracking-wider px-1.5 py-0.5 rounded bg-slate-200/50 mt-1">
+                      <Lock size={8} />
+                      {formatTimeLeft(timeLeft)}
+                    </div>
+                  )}
+                </div>
               </header>
 
 {/* Stats Cards */}
@@ -654,9 +855,9 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-6"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <h2 className="text-2xl font-bold text-slate-800">Ordens de Serviço</h2>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <button 
                     onClick={() => setViewMode('card')}
                     className={cn("p-2 rounded-lg transition-all", viewMode === 'card' ? "bg-white shadow-sm text-blue-600" : "text-slate-400")}
@@ -772,8 +973,8 @@ export default function App() {
                   ))}
                 </div>
               ) : (
-                <div className="bg-white rounded-2xl shadow-sm border-2 border-slate-200 overflow-hidden">
-                  <table className="w-full text-left">
+                <div className="bg-white rounded-2xl shadow-sm border-2 border-slate-200 overflow-x-auto w-full">
+                  <table className="w-full text-left min-w-[800px]">
                     <thead className="bg-slate-50 border-b border-slate-100">
                       <tr>
                         <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Tag</th>
@@ -822,9 +1023,18 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-8"
             >
-              <header>
-                <h2 className="text-3xl font-bold text-slate-800">Estrutura do Banco de Dados</h2>
-                <p className="text-slate-500">Visualização técnica das tabelas e dados brutos</p>
+              <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-3xl font-bold text-slate-800">Estrutura do Banco de Dados</h2>
+                  <p className="text-slate-500">Visualização técnica das tabelas e dados brutos</p>
+                </div>
+                <button 
+                  onClick={handleBackupDatabase}
+                  className="flex items-center gap-2 bg-emerald-600 text-white font-medium px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/20"
+                >
+                  <Download size={20} />
+                  <span>Fazer Backup (.db)</span>
+                </button>
               </header>
 
               <div className="space-y-6">
@@ -896,14 +1106,14 @@ export default function App() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"
+              className="bg-white mx-4 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+              <div className="p-4 md:p-6 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10">
                 <h3 className="text-xl font-bold text-slate-800">Editar Ordem #{editingOrder.id}</h3>
                 <button onClick={() => setEditingOrder(null)} className="text-slate-400 hover:text-slate-600"><X size={24} /></button>
               </div>
-              <form onSubmit={handleUpdateOrder} className="p-6 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleUpdateOrder} className="p-4 md:p-6 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Solicitante</label>
                     <input required name="requester" defaultValue={editingOrder.requester} className="w-full px-4 py-2 rounded-lg border border-slate-200 outline-none focus:ring-2 focus:ring-blue-500" />
@@ -948,13 +1158,13 @@ export default function App() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"
+              className="bg-white mx-4 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+              <div className="p-4 md:p-6 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10">
                 <h3 className="text-xl font-bold text-slate-800">Finalizar Ordem #{finishingOrder.id}</h3>
                 <button onClick={() => setFinishingOrder(null)} className="text-slate-400 hover:text-slate-600"><X size={24} /></button>
               </div>
-              <form onSubmit={handleFinishOrder} className="p-6 space-y-4">
+              <form onSubmit={handleFinishOrder} className="p-4 md:p-6 space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Manutentor Responsável</label>
                   <select required name="technician_name" className="w-full px-4 py-2 rounded-lg border border-slate-200 outline-none focus:ring-2 focus:ring-blue-500">
@@ -968,15 +1178,20 @@ export default function App() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Assinatura do Manutentor (Digital)</label>
-                  <div className="border border-slate-200 rounded-lg bg-slate-50 p-1">
+                  <div className="border border-slate-200 rounded-lg bg-slate-50 p-1 overflow-hidden">
                     <canvas 
                       ref={signatureRef}
-                      width={440}
-                      height={120}
                       className="w-full h-[120px] cursor-crosshair touch-none bg-white rounded"
                       onMouseDown={(e) => {
                         const canvas = signatureRef.current;
                         if (!canvas) return;
+                        
+                        // Set actual canvas resolution if not set yet
+                        if (canvas.width !== canvas.offsetWidth) {
+                          canvas.width = canvas.offsetWidth;
+                          canvas.height = canvas.offsetHeight;
+                        }
+                        
                         const ctx = canvas.getContext('2d');
                         if (!ctx) return;
                         ctx.beginPath();
@@ -1000,6 +1215,13 @@ export default function App() {
                       onTouchStart={(e) => {
                         const canvas = signatureRef.current;
                         if (!canvas) return;
+                        
+                        // Set actual canvas resolution if not set yet
+                        if (canvas.width !== canvas.offsetWidth) {
+                          canvas.width = canvas.offsetWidth;
+                          canvas.height = canvas.offsetHeight;
+                        }
+                        
                         const ctx = canvas.getContext('2d');
                         if (!ctx) return;
                         const rect = canvas.getBoundingClientRect();
@@ -1053,9 +1275,9 @@ export default function App() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[80vh] flex flex-col"
+              className="bg-white mx-4 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[80vh] flex flex-col"
             >
-              <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+              <div className="p-4 md:p-6 border-b border-slate-100 flex justify-between items-center bg-white z-10 sticky top-0">
                 <div>
                   <h3 className="text-xl font-bold text-slate-800">Histórico de Manutenção</h3>
                   <p className="text-sm text-slate-500">Equipamento: {historyTag}</p>
@@ -1097,9 +1319,9 @@ export default function App() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col"
+              className="bg-white mx-4 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col"
             >
-              <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-blue-600 text-white">
+              <div className="p-4 md:p-6 border-b border-slate-100 flex justify-between items-center bg-blue-600 text-white z-10 sticky top-0">
                 <div className="flex items-center gap-3">
                   <HelpCircle size={24} />
                   <h3 className="text-xl font-bold">Instruções do Sistema</h3>

@@ -160,6 +160,31 @@ async function startServer() {
     }
   });
 
+  app.get("/api/backup", (req, res) => {
+    try {
+      const dbPath = path.join(__dirname, "maintos.db");
+      if (!fs.existsSync(dbPath)) {
+        return res.status(404).json({ error: "Database file not found" });
+      }
+      
+      const stat = fs.statSync(dbPath);
+      
+      res.writeHead(200, {
+        "Content-Type": "application/octet-stream",
+        "Content-Length": stat.size,
+        "Content-Disposition": `attachment; filename=mastig_backup_${new Date().toISOString().split('T')[0]}.db`
+      });
+      
+      const readStream = fs.createReadStream(dbPath);
+      readStream.pipe(res);
+    } catch (error) {
+      console.error("Error creating backup:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Failed to create backup" });
+      }
+    }
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
