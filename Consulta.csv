@@ -1,0 +1,453 @@
+Tag;Equipamento;Setor
+1;Vestiário Masculino;Vestiário
+2;VESTIÁRIO FEMININO;Vestiário feminino
+3;Chapa da doca;Antecâmara
+4;Pátio;Área Externa
+6;Gerador de espuma;Área fria
+6;Caldeira;Área externa
+6;Máquina de costura 3;Embalagem
+7;Suporte mangueira;Barreira sanitária úmida
+8;Refeitório;ÁREA EXTERNA
+9;Sala de Descongelamento;Sala de Descongelamento
+10;Ventilador;area fria
+11;Escritório;Escritório
+12;ÁREA FRIA;Área Fria
+13;Buffet térmico;Refeitório
+14;Sala de manipulação;Sala de manipulação
+15;Forro;Corredor dos carrinhos
+16;Escada moinho;Moinho
+17;Paleteira inox;area fria
+18;Setor de Expedição;Expedição
+19;corredor das estufas area fria;area fria
+20;Carrinho;Corredor de carrinhos
+21;Seladora automática 4;Embalagem
+22;area externa;Area externa
+23;Rack;Sala PCP
+24;Prateleiras;Insumo
+25;SETOR DA EMBALAGEM;Embalagem
+26;Faca;Manipulação
+27;Refletor;Extrusão
+28;Mesa;Barracão 3
+29;carrinho de glicerina manipulação;Sala de manipulação
+30;VENTILADOR 60CM;ÁREA FRIA
+31;Suporte de glicerina;Manipulação
+31;Higienização;Higienização
+32;Extintor;Antecâmara
+33;Paleteira;ÁREA FRIA
+34;Carrinho;Extrusão
+35;Cadeira;Sala Dalton
+36;Paleteira azul;Serra
+37;Seladora Cetro;Embalagem
+38;Prateleiras;DML
+39;Lâmpada led tubular;Corredor estufa
+40;Rack;Embalagem
+41;Carrinho de glicerina;Extrusão
+42;Ventilador;area fria
+43;Suporte de proteção do painel;Corredor estufas 1-4
+44;Paleteira;area fria
+45;Paleteira;Área Fria
+46;Setor da Extrusão;Extrusão
+47;Chave para abrir galão;Extrusão
+48;Biodigestor;Patio da Empresa
+49;Mangueira - sala descongelamentos;Sala de descongelamento
+50;Stand Up Pounch;Embalagem
+51;Ventilador;Barreira sanitária úmida
+52;Relógio ponto;Barreira sanitária úmida
+53;Armadilha luminosa;Barreira sanitária úmida
+54;Balança de chão 1000kg;Antecâmara
+55;Tanque de polipropileno 1-3;Sala de descongelamento
+56;Tanque de polipropileno 4-6;Sala de descongelamento
+57;Tanque de polipropileno 7-9;Sala de descongelamento
+58;Mesa para inverter tripa;Sala de descongelamento
+59;Motobomba periférica - mesa inverter tripa;Sala de descongelamento
+60;Caixa inox - mesa inverter tripa;Sala de descongelamento
+61;Tanque tingimento tripa;Sala de descongelamento
+61;Suporte em inox para as bandejas;Area fria
+62;Paleteira;Sala de descongelamento
+63;Câmara fria 1;Câmara
+64;Painel de comando;Câmara
+65;Compressor;Câmara
+66;Evaporador;Câmara
+67;Câmara fria 2;Câmara
+68;Painel de comando 1;Câmara
+69;Painel de comando 2;Câmara
+70;Compressor 1;Câmara
+71;Compressor 2;Câmara
+72;Evaporador 1 c/ 5 motores;Câmara
+73;Evaporador 2 c/ 5 motores;Câmara
+74;Balança de chão 1000kg;Sala de manipulação
+75;Balança 50kg;Sala de manipulação
+76;Balança 50kg;Sala de manipulação
+77;Mesa inox 1;Sala de manipulação
+78;Mesa inox 2;Sala de manipulação
+79;Mesa inox 3;Sala de manipulação
+79;Argola em inox;Área fria
+80;Mesa inox 4;Sala de manipulação
+81;Bifetadeira;Sala de manipulação
+82;Ventilador 1;Sala de manipulação
+83;Ventilador 2;Sala de manipulação
+84;Ventilador 3;Sala de manipulação
+85;Motobomba periférica de água;Sala de manipulação
+86;CLIMATIZADOR ECO BRISA;Sala de manipulação
+87;Hidrolavadora;Higienização
+88;Exaustor;Higienização
+89;Misturador de vapor;Higienização
+90;Ar condicionado;Qualidade, gerência e PCP
+91;Gaveteiro inox 1;Qualidade, gerência e PCP
+92;Gaveteiro inox 2;Qualidade, gerência e PCP
+92;Porta;Barreira sanitária - área fria
+93;Ventilador;Expedição
+94;Armário inox 2;Qualidade, gerência e PCP
+95;Armário inox 3;Qualidade, gerência e PCP
+96;Armário inox 4;Qualidade, gerência e PCP
+97;Armário inox 5;Qualidade, gerência e PCP
+98;Datadora;Qualidade, gerência e PCP
+99;Analisador de umidade;Qualidade, gerência e PCP
+99;Chão;Elaine
+100;Analisador de aw 1;Qualidade, gerência e PCP
+101;Analisador de aw 2;Qualidade, gerência e PCP
+101;Dispenser sabonete;Barreira área seca
+102;ESTUFA 05;MANIPULAÇÃO
+103;Motor elétrico 1;Estufa
+104;Motor elétrico 2;Estufa
+104;Sala PCP;PCP
+105;Motor elétrico 3;Estufa
+106;ESTUFA 06;MANIPULAÇÃO
+107;Motor elétrico 1;Estufa
+108;Motor elétrico 2;Estufa
+109;Motor elétrico 3;Estufa
+110;ESTUFA 07;MANIPULAÇÃO
+111;Motor elétrico 1;Estufa
+112;Motor elétrico 2;Estufa
+113;Motor elétrico 3;Estufa
+114;Motor elétrico 4;Estufa
+115;ESTUFA 08;MANIPULAÇÃO
+116;Motor elétrico 1;Estufa
+117;Motor elétrico 2;Estufa
+118;Motor elétrico 3;Estufa
+119;Motor elétrico 4;Estufa
+120;Quadro de comando 5-6;Corredor estufa
+121;Quadro de comando 7;ÁREA FRIA
+122;Quadro de comando 8;Corredor estufa
+123;Armadilha luminosa;Corredor estufa
+124;Bebedouro;Corredor estufa
+125;Extrusora 1;Extrusão
+126;Motor alimentador extrusora;Extrusão
+127;Redutor alimentador extrusora;Extrusão
+128;Extrusora 2;Extrusão
+129;Motor alimentador extrusora;Extrusão
+130;Redutor alimentador extrusora;Extrusão
+131;Motor extrusora;Extrusão
+132;Redutor extrusora;Extrusão
+133;Masseira inox 1;Extrusão
+134;Masseira inox 2;Extrusão
+135;Motor;Extrusão
+136;Redutor motor;Extrusão
+137;Torre de resfriamento;Extrusão
+138;Motor torre resfriamento;Extrusão
+139;Ventilador 1;Extrusão
+140;Ventilador 2;Extrusão
+141;Ventilador 3;Extrusão
+142;Ventilador 4;Extrusão
+143;Mesa;Extrusão
+144;Balança 15kg;Extrusão
+145;Painel de controle alimentador extrusora;Extrusão
+147;Painel de controle da masseira;Extrusão
+148;Painel de controle água quente;Extrusão
+149;Paleteira;Fulão
+150;Armadilha luminosa;Extrusão
+151;Ventilador;Extrusão
+152;Estufa 1;Estufa
+152;ESTUFA 01;ÁREA SECA
+153;Motor elétrico 1;Estufa
+154;Motor elétrico 2;Estufa
+155;Motor elétrico 3;Estufa
+156;Motor elétrico 4;Estufa
+157;Motor elétrico 5;Estufa
+158;Estufa 2;Estufa
+158;ESTUFA 02;ÁREA SECA
+159;Motor elétrico 1;Estufa
+160;Motor elétrico 2;Estufa
+161;Motor elétrico 3;Estufa
+162;Estufa 3;Estufa
+162;ESTUFA 02;ÁREA SECA
+163;Motor elétrico 1;Estufa
+164;Motor elétrico 2;Estufa
+165;Motor elétrico 3;Estufa
+166;ESTUFA 04;ÁREA SECA
+167;Motor elétrico 1;Estufa
+168;Motor elétrico 2;Estufa
+169;Motor elétrico 3;Estufa
+170;Quadro de comando 1-2;Corredor estufa
+171;Quadro de comando 3-4;Corredor estufa
+172;Armadilha luminosa;Corredor estufa
+173;Paleteira;Corredor estufa
+174;SERRA FITA;Serra
+175;SERRA FITA;Serra
+176;SERRA FITA;Serra
+177;Balança 50kg;Serra
+178;Balança 50kg;Serra
+180;CLIMATIZADOR ECO BRISA;Serra
+181;Ventilador;Serra
+182;Máquina de costura 2;Embalagem
+183;CLIMATIZADOR ECO BRISA;Embalagem
+184;Flowpack 1;Embalagem
+185;Flowpack 2;Embalagem
+186;Túnel de encolhimento;Embalagem
+187;Seladora semi automática 1;Embalagem
+188;Seladora semi automática 2;Embalagem
+189;Detector de metais;Embalagem
+190;Motor detector de metais;Embalagem
+191;Impressora;Embalagem
+192;Fechadora de caixa 1;Embalagem
+193;Fechadora de caixa 2;Embalagem
+194;Fechadora de caixa 3;Embalagem
+195;SELADORA CETRO;Embalagem
+196;Seladora registron;Embalagem
+197;SELADORA CETRO;Embalagem
+198;SELADORA EM L;Embalagem
+199;Máquina de costura 1;Embalagem
+200;Balança 50kg;Embalagem
+201;Balança 1 - 15kg;Embalagem
+202;Balança 2 - 15kg;Embalagem
+203;Balança 3 - 15kg;Embalagem
+204;Balança 4 - 15kg;Embalagem
+205;Balança 5 - 15kg;Embalagem
+206;Balança 1 - 15kg;Embalagem
+207;Balança 2 - 15kg;Embalagem
+208;Impressora etiqueta 1;Embalagem
+209;Impressora etiqueta 2;Embalagem
+210;Impressora etiqueta 3;Embalagem
+211;Impressora etiqueta 4;Embalagem
+212;Seladora pedal;Embalagem
+213;Empilhadeira elétrica;Expedição
+214;Paleteira;Expedição
+215;Mesa inox 1;Embalagem
+216;Mesa inox 2;Embalagem
+217;Mesa inox 3;Embalagem
+218;Bacia 1;Embalagem
+219;Bacia 2;Embalagem
+220;Ventilador 1;Embalagem
+221;Exaustor;Embalagem
+222;Bebedouro;Embalagem
+223;Exaustor;Estoque de bobinas
+224;Exaustor;Embalagem primária
+225;Exaustor;Embalagem secundária
+226;Cortina de ar;Expedição
+227;Armadilha luminosa;Expedição
+228;TRANSPALETEIRA;Expedição
+229;CLIMATIZADOR ECO BRISA;Expedição
+230;Ventilador 1;Expedição
+231;Ventilador 2;Expedição
+232;Armadilha luminosa;Barreira sanitária seca
+233;Relógio ponto;Barreira sanitária seca
+234;Fulão;Fulão
+235;Motor fulão;Fulão
+236;Redutor fulão;Fulão
+237;Painel de controle 1 - Fulão;Fulão
+238;Painel de controle 2 - Fulão;Fulão
+239;Enxugadeira;Fulão
+240;Moedor de couro;Fulão
+241;Panela de pressão;Fulão
+242;Máquina de corte 1;Fulão
+243;Máquina de corte 2;Fulão
+244;Máquina de corte 3;Fulão
+245;Balança 50kg;Fulão
+246;Balança 15kg;Fulão
+247;Ventilador 1;Fulão
+248;Ventilador 2;Fulão
+249;Bebedouro;Fulão
+250;Moinho;Moinho
+251;Motor moinho;Moinho
+252;Soprador de ar;Moinho
+253;Painel elétrico moinho;Moinho
+254;Silo;Moinho
+255;Quadro de distribuição energia;Moinho
+256;Ventilador 1;Moinho
+257;Ventilador 2;Moinho
+258;Balança 50kg;Moinho
+259;Caldeira;Caldeira
+260;Dosadora de Cloro;Caldeira
+261;Válvula solenoide 1;Caldeira
+262;Válvula solenoide 2;Caldeira
+263;Válvula solenoide 3;Caldeira
+264;Válvula solenoide 4;Caldeira
+265;Válvula solenoide 5;Caldeira
+266;Válvula solenoide 6;Caldeira
+267;Válvula solenoide 7;Caldeira
+268;Válvula solenoide 8;Caldeira
+269;Válvula solenoide 9;Caldeira
+270;Válvula solenoide 10;Caldeira
+271;Exaustor caldeira;Caldeira
+272;Motor exaustor;Caldeira
+273;Válvula de segurança 8;Caldeira
+274;Válvula de segurança 8.4;Caldeira
+275;Motobomba;Caldeira
+276;Motobomba caldeira;Caldeira
+277;Injetor;Caldeira
+278;Filtro de entrada de água BIG 20;Caldeira
+279;Tanque caldeira;Caldeira
+280;Compressor;Caldeira
+281;Painel elétrico caldeira;Caldeira
+282;Bomba dosadora sulfato de alumínio;E.T.E
+283;Bomba dosadora soda;E.T.E
+284;Bomba submersiva geral;E.T.E
+285;Peneira rotativa;E.T.E
+286;Motor peneira;E.T.E
+287;Bomba elevação submersa;E.T.E
+288;Soprador dos difusores;E.T.E
+289;Painel elétrico;E.T.E
+290;Painel de distribuição ETE;E.T.E
+291;Painel de comando;E.T.E
+292;Soprador de ar reator MBBR;E.T.E
+293;Painel de comando principal ETE;E.T.E
+294;Bomba dosadora polímero;E.T.E
+295;Bomba dosadora anti-espumante;E.T.E
+296;Motor agitador;E.T.E
+297;Redutor agitador;E.T.E
+298;Reator MBBR;E.T.E
+299;Decantador fisico quimico;E.T.E
+300;Caixa da água 10000L;E.T.E
+301;Motobomba caixa da água;E.T.E
+302;Filtro de areia 1;E.T.E
+303;Filtro de areia 2;E.T.E
+304;Filtro 1;E.T.E
+305;Filtro 2;E.T.E
+306;Filtro 3;E.T.E
+307;Filtro 4;E.T.E
+308;Armário roupeiro 4 portas;Vestiário feminino
+309;Armário roupeiro 12 portas;Vestiário feminino
+310;Armário roupeiro 1 - 16 portas;Vestiário feminino
+311;Armário roupeiro 2 - 16 portas;Vestiário feminino
+312;Armário roupeiro 3 - 16 portas;Vestiário feminino
+313;Armário roupeiro 4 - 16 portas;Vestiário feminino
+314;Armário roupeiro 1 - 8 portas;Vestiário masculino
+315;Armário roupeiro 2 - 8 portas;Vestiário masculino
+316;Armário roupeiro 3 - 8 portas;Vestiário masculino
+317;Armário roupeiro 12 portas;Vestiário masculino
+318;Armário roupeiro 1 - 16 portas;Vestiário masculino
+319;Armário roupeiro 2 - 16 portas;Vestiário masculino
+320;Ventilador 1;Refeitório
+321;Ventilador 2;Refeitório
+322;Ventilador 3;Refeitório
+323;Ventilador 4;Refeitório
+324;Ventilador;Refeitório
+326;Bebedouro;Refeitório
+327;Microondas;Refeitório
+328;Fogão;Refeitório
+329;Geladeira;Refeitório
+330;Tanquinho;Refeitório
+331;Ar condicionado;RH
+332;Ar condicionado;Comercial
+333;Ar condicionado;Administração
+334;Frigobar;Administração
+335;Bebedouro;Administração
+336;TV;Administração
+337;Ar condicionado;Sala de reunião
+338;TV;Sala de reunião
+339;Ar condicionado;Sala diretoria
+340;Quadro de distribuição energia;Quadro energia
+341;Compressor de ar;Caldeira
+342;Moldadora de bifinho;Moldadora de bifinho
+343;Esmeril;Manutenção
+344;Serra circular;Manutenção
+345;Furadeira de bancada;Manutenção
+346;Máquina de solda;Manutenção
+347;Parafusadeira furadeira;Manutenção
+348;Lixadeira 1 - 115mm;Manutenção
+349;Lixadeira 2 - 115mm;Manutenção
+350;Lixadeira;Manutenção
+351;Martelete;Manutenção
+352;Furadeira manual;Manutenção
+353;Atomizador/pulverizador;Manutenção
+354;Roçadeira;Manutenção
+355;Pulverizador manual;Manutenção
+356;Soproaspirador;Manutenção
+357;Motor elétrico 1 - 7.5 CV;Manutenção
+358;Motor elétrico 2 - 7.5 CV;Manutenção
+359;Motor elétrico 3 - 7.5 CV;Manutenção
+360;Motor elétrico 4;Manutenção
+361;Motor elétrico 5;Manutenção
+362;Motor elétrico 6;Manutenção
+363;Motoredutor - 3 CV;Manutenção
+364;Hidrômetro;Sistema de cloração
+365;Banco de capacitores;Banco de capacitores
+366;Mesa inox 1;Fulão
+367;Mesa inox 2;Fulão
+368;Exaustor;Moinho
+374;Ventilador 2;Embalagem
+375;Ventilador 3;Embalagem
+376;Exaustor 1;Antecâmara
+377;Exaustor 2;Antecâmara
+378;Exaustor 1;Sala de descongelamento
+379;Exaustor 2;Sala de descongelamento
+380;Exaustor 3;Sala de descongelamento
+381;Exaustor 4;Sala de descongelamento
+382;Exaustor 5;Sala de descongelamento
+383;Exaustor 6;Sala de descongelamento
+384;Computador - Cleiton;Computadores RH
+385;Servidor;Computadores - RH
+386;Firewall;Computadores - RH
+387;Computador - Adriana;Computadores - Comercial
+388;Notebook - Felipe;Computadores - Comercial
+389;Notebook - Ronaldo;Computadores - Comercial
+390;Notebook - Dalton;Computadores - Comercial
+391;Notebook - Isabela;Computadores - Adm
+392;Notebook - Marcos;Computadores - Adm
+393;Notebook - Mara;Computadores - Adm
+394;Notebook - Larissa;Computadores - Adm
+395;Notebook Karen;Computadores - Adm
+396;Computador - Gabriel;Computadores - Adm
+397;Computador - Karine;Computadores - PCP
+398;Computador - Claudio/Estufas;Computadores - PCP
+399;Computador - Alexandre;Computadores - PCP
+400;Computador - Isabela Maria;Computadores - PCP
+402;Computador - Sâmela;Computadores - PCP
+403;Computador - Dara;Computadores - PCP
+404;Computador - Elaine;Computadores - PCP
+405;Computador - Linea;Computadores - Embalagem
+406;Computador - Embalagem;Computadores - Embalagem
+407;Computador - Expedição;Computadores - Expedição
+408;Computador - Rafaela;Computadores - Extrusão
+410;Paleteira inox;Sala de descongelamento
+411;Injetora;Barracão
+412;Paleteira;Barracão
+413;Empilhadeira elétrica;Barracão
+414;Seladora automática em L;Barracão
+415;Clipadeira 1;Barracão
+416;Serra circular discos;Barracão
+417;Clipadeira 2;Barracão
+418;Seladora de blister;Barracão
+419;Ar condicionado;Barracão
+420;Bebedouro;Barracão
+421;Portão eletrônico;Área externa
+422;Mesa;Extrusão
+422;Liquidificador industrial;Área fria
+423;Máquina de corte 4;Fulão
+424;Impressora Tesla;Embalagem
+425;Amolador de faca;Área fria
+426;Ventilador;Sala de higienização
+427;Seladora registron;Embalagem
+428;Sala de Descongelamento;Área Fria
+478;Predial;Area fria
+9979;Cortina de ar;Porta da Extrusão
+9980;Estação de Tratamento;Área Externa
+9981;INTERFONE;Área Externa
+9982;Dosadora de Cloro;Área Externa
+9983;Motor elétrico 3;Estufa
+9984;Máquina de costura 4;Embalagem
+9985;PORTA-COPOS;EMBALAGEM
+9986;Tomada;Fulão
+9987;HIDRAULICA;FULÃO
+9988;ÁREA FRIA;ÁREA FRIA
+9989;INTERFONE;ÁREA EXTERNA
+9990;Painel elétrico extrusora;Extrusão
+9991;SETOR SERRA FITA;SERRA FITA - EMBALAGEM
+9992;Sala PCP;ÁREA FRIA
+9993;MANGUEIRAS;EXTRUSÃO
+9994;MANGUEIRAS;ÁREA FRIA
+9995;LUMINOSO MASTIG;FABRICA
+9996;Lâmpada led tubular;FABRICA
+9997;Lâmpada Bulbo;LAVA-BOTAS ÁRE FRIA
+9998;Biodigestor;ÁREA EXTERNA
+99999;Filial Mastig;Filial
