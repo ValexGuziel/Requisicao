@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  LayoutDashboard, 
-  PlusCircle, 
-  ClipboardList, 
-  Users, 
-  Search, 
-  Filter, 
-  Grid, 
+import {
+  LayoutDashboard,
+  PlusCircle,
+  ClipboardList,
+  Users,
+  Search,
+  Filter,
+  Grid,
   List as ListIcon,
   Edit,
   Trash2,
@@ -23,13 +23,13 @@ import {
   Unlock,
   Download
 } from 'lucide-react';
-import { 
-  PieChart, 
-  Pie, 
-  Cell, 
-  ResponsiveContainer, 
-  Tooltip, 
-  Legend 
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  Legend
 } from 'recharts';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -68,7 +68,7 @@ export default function App() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
+
   // Lock Mechanism State
   const [isLocked, setIsLocked] = useState(true);
   const [passwordInput, setPasswordInput] = useState('');
@@ -117,7 +117,7 @@ export default function App() {
       const techsData = await techsRes.json();
       const statsData = await statsRes.json();
       const equipData = await equipRes.json();
-      
+
       setOrders(ordersData);
       setTechnicians(techsData);
       setStats(statsData);
@@ -142,7 +142,7 @@ export default function App() {
     const locked = checkLockStatus();
     if (!locked) {
       fetchData();
-      
+
       const updateTimer = () => {
         const expiry = localStorage.getItem('mastig_unlock_expiry');
         if (expiry) {
@@ -154,10 +154,10 @@ export default function App() {
           }
         }
       };
-      
+
       updateTimer();
       const intervalId = setInterval(updateTimer, 1000);
-      
+
       const handleClickOutside = () => setShowSuggestions(false);
       window.addEventListener('click', handleClickOutside);
       return () => {
@@ -173,7 +173,7 @@ export default function App() {
 
   const handleCreateOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
       const res = await fetch('/api/orders', {
         method: 'POST',
@@ -267,7 +267,7 @@ export default function App() {
     try {
       const response = await fetch('/api/backup');
       if (!response.ok) throw new Error('Falha ao baixar backup');
-      
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -428,13 +428,13 @@ export default function App() {
   };
 
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = 
+    const matchesSearch =
       order.equipment_tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.equipment_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.sector.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesStatus = 
-      filterStatus === 'all' || 
+
+    const matchesStatus =
+      filterStatus === 'all' ||
       order.status === filterStatus;
 
     return matchesSearch && matchesStatus;
@@ -443,7 +443,7 @@ export default function App() {
   if (isLocked) {
     return (
       <div className="flex h-screen bg-slate-900 font-sans items-center justify-center p-4">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
@@ -457,12 +457,12 @@ export default function App() {
           <p className="text-center text-slate-500 mb-8 text-sm">
             Por favor, insira a senha de acesso para liberar o uso do sistema pelos próximos 90 dias.
           </p>
-          
+
           <form onSubmit={handleUnlock} className="space-y-4">
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2">Senha de Acesso</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 value={passwordInput}
                 onChange={(e) => {
                   setPasswordInput(e.target.value);
@@ -470,8 +470,8 @@ export default function App() {
                 }}
                 className={cn(
                   "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all",
-                  passwordError 
-                    ? "border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50" 
+                  passwordError
+                    ? "border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50"
                     : "border-slate-300 focus:ring-blue-500 focus:border-blue-500"
                 )}
                 placeholder="Insira a senha"
@@ -481,8 +481,8 @@ export default function App() {
                 <p className="text-red-500 text-xs mt-2 font-medium">Senha incorreta. Tente novamente.</p>
               )}
             </div>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2"
             >
               <Unlock size={18} />
@@ -496,11 +496,11 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans text-gray-900 overflow-hidden">
-      
+
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-slate-900 flex items-center justify-between px-4 z-40 shadow-md">
         <h1 className="text-xl font-bold tracking-tight text-blue-400 truncate">Mastig Manutenção</h1>
-        <button 
+        <button
           onClick={() => setIsSidebarOpen(true)}
           className="text-white p-2 hover:bg-slate-800 rounded-lg transition-colors"
         >
@@ -511,7 +511,7 @@ export default function App() {
       {/* Sidebar Overlay for Mobile */}
       <AnimatePresence>
         {isSidebarOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -531,16 +531,16 @@ export default function App() {
             <h1 className="text-2xl font-bold tracking-tight text-blue-400">Mastig</h1>
             <p className="text-xs text-slate-400 mt-1">Gestão de Manutenção</p>
           </div>
-          <button 
+          <button
             onClick={() => setIsSidebarOpen(false)}
             className="md:hidden text-slate-400 hover:text-white p-1"
           >
             <X size={20} />
           </button>
         </div>
-        
+
         <nav className="flex-1 p-4 space-y-2">
-          <button 
+          <button
             onClick={() => { setActiveTab('dashboard'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
@@ -550,8 +550,8 @@ export default function App() {
             <LayoutDashboard size={20} />
             <span className="font-medium">Painel Geral</span>
           </button>
-          
-          <button 
+
+          <button
             onClick={() => { setActiveTab('new'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
@@ -561,8 +561,8 @@ export default function App() {
             <PlusCircle size={20} />
             <span className="font-medium">Nova Ordem</span>
           </button>
-          
-          <button 
+
+          <button
             onClick={() => { setActiveTab('list'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
@@ -573,7 +573,7 @@ export default function App() {
             <span className="font-medium">Listar Ordens</span>
           </button>
 
-          <button 
+          <button
             onClick={() => { setActiveTab('database'); setIsSidebarOpen(false); }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
@@ -592,8 +592,8 @@ export default function App() {
           </div>
           <div className="space-y-1">
             {technicians.map(tech => {
-              const percentage = stats?.finished && stats.finished > 0 
-                ? Math.round(((tech.finished_count || 0) / stats.finished) * 100) 
+              const percentage = stats?.finished && stats.finished > 0
+                ? Math.round(((tech.finished_count || 0) / stats.finished) * 100)
                 : 0;
               return (
                 <div key={tech.id} className="text-sm text-slate-300 px-2 py-1 flex items-center justify-between gap-2 group">
@@ -615,7 +615,7 @@ export default function App() {
       <main className="flex-1 overflow-y-auto w-full pt-16 md:pt-0 p-4 md:p-8">
         <AnimatePresence mode="wait">
           {activeTab === 'dashboard' && (
-            <motion.div 
+            <motion.div
               key="dashboard"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -635,7 +635,7 @@ export default function App() {
                         {formatTimeLeft(timeLeft)}
                       </div>
                     )}
-                    <button 
+                    <button
                       onClick={() => setShowHelpModal(true)}
                       className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium bg-blue-50 px-4 py-2 rounded-lg transition-all"
                     >
@@ -652,7 +652,7 @@ export default function App() {
                 </div>
               </header>
 
-{/* Stats Cards */}
+              {/* Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-2xl shadow-sm border-2 border-slate-200">
                   <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total de Ordens</p>
@@ -723,7 +723,7 @@ export default function App() {
           )}
 
           {activeTab === 'new' && (
-            <motion.div 
+            <motion.div
               key="new"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -736,34 +736,34 @@ export default function App() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-1">Solicitante</label>
-                      <input 
-                        required 
+                      <input
+                        required
                         value={newOrderData.requester}
-                        onChange={(e) => setNewOrderData({...newOrderData, requester: e.target.value})}
-                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" 
+                        onChange={(e) => setNewOrderData({ ...newOrderData, requester: e.target.value })}
+                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                       />
                     </div>
                     <div className="relative" onClick={(e) => e.stopPropagation()}>
                       <label className="block text-sm font-medium text-slate-700 mb-1">Tag do Equipamento</label>
-                      <input 
-                        required 
+                      <input
+                        required
                         autoComplete="off"
                         value={newOrderData.equipment_tag}
                         onChange={(e) => {
                           const val = e.target.value;
-                          setNewOrderData({...newOrderData, equipment_tag: val});
+                          setNewOrderData({ ...newOrderData, equipment_tag: val });
                           setShowSuggestions(val.length > 0);
                         }}
                         onFocus={(e) => {
                           e.stopPropagation();
                           setShowSuggestions(newOrderData.equipment_tag.length > 0);
                         }}
-                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" 
+                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                       />
                       {showSuggestions && (
                         <div className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto">
                           {equipmentList
-                            .filter(eq => 
+                            .filter(eq =>
                               eq.tag.toLowerCase().includes(newOrderData.equipment_tag.toLowerCase()) ||
                               eq.name.toLowerCase().includes(newOrderData.equipment_tag.toLowerCase())
                             )
@@ -788,40 +788,40 @@ export default function App() {
                               </button>
                             ))
                           }
-                          {equipmentList.filter(eq => 
+                          {equipmentList.filter(eq =>
                             eq.tag.toLowerCase().includes(newOrderData.equipment_tag.toLowerCase()) ||
                             eq.name.toLowerCase().includes(newOrderData.equipment_tag.toLowerCase())
                           ).length === 0 && (
-                            <div className="px-4 py-2 text-sm text-slate-500 italic">Nenhum equipamento encontrado</div>
-                          )}
+                              <div className="px-4 py-2 text-sm text-slate-500 italic">Nenhum equipamento encontrado</div>
+                            )}
                         </div>
                       )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-1">Nome do Equipamento</label>
-                      <input 
-                        required 
+                      <input
+                        required
                         value={newOrderData.equipment_name}
-                        onChange={(e) => setNewOrderData({...newOrderData, equipment_name: e.target.value})}
-                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" 
+                        onChange={(e) => setNewOrderData({ ...newOrderData, equipment_name: e.target.value })}
+                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-1">Setor</label>
-                      <input 
-                        required 
+                      <input
+                        required
                         value={newOrderData.sector}
-                        onChange={(e) => setNewOrderData({...newOrderData, sector: e.target.value})}
-                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" 
+                        onChange={(e) => setNewOrderData({ ...newOrderData, sector: e.target.value })}
+                        className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                       />
                     </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Tipo de Manutenção</label>
-                    <select 
-                      required 
+                    <select
+                      required
                       value={newOrderData.maintenance_type}
-                      onChange={(e) => setNewOrderData({...newOrderData, maintenance_type: e.target.value})}
+                      onChange={(e) => setNewOrderData({ ...newOrderData, maintenance_type: e.target.value })}
                       className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                     >
                       <option value="Corretiva">Corretiva</option>
@@ -831,12 +831,12 @@ export default function App() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Descrição do Problema</label>
-                    <textarea 
-                      required 
+                    <textarea
+                      required
                       value={newOrderData.problem_description}
-                      onChange={(e) => setNewOrderData({...newOrderData, problem_description: e.target.value})}
-                      rows={4} 
-                      className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" 
+                      onChange={(e) => setNewOrderData({ ...newOrderData, problem_description: e.target.value })}
+                      rows={4}
+                      className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                     />
                   </div>
                   <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20">
@@ -848,7 +848,7 @@ export default function App() {
           )}
 
           {activeTab === 'list' && (
-            <motion.div 
+            <motion.div
               key="list"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -858,21 +858,21 @@ export default function App() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <h2 className="text-2xl font-bold text-slate-800">Ordens de Serviço</h2>
                 <div className="flex flex-wrap items-center gap-2">
-                  <button 
+                  <button
                     onClick={() => setViewMode('card')}
                     className={cn("p-2 rounded-lg transition-all", viewMode === 'card' ? "bg-white shadow-sm text-blue-600" : "text-slate-400")}
                   >
                     <Grid size={20} />
                   </button>
                   <div className="w-px h-6 bg-slate-200 mx-1" />
-                  <button 
+                  <button
                     onClick={() => setViewMode('list')}
                     className={cn("p-2 rounded-lg transition-all", viewMode === 'list' ? "bg-white shadow-sm text-blue-600" : "text-slate-400")}
                   >
                     <ListIcon size={20} />
                   </button>
                   <div className="w-px h-6 bg-slate-200 mx-1" />
-                  <button 
+                  <button
                     onClick={() => exportToExcel(filteredOrders)}
                     className="flex items-center gap-2 px-3 py-2 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-all font-medium text-sm border border-emerald-200"
                     title="Exportar para Excel"
@@ -880,7 +880,7 @@ export default function App() {
                     <FileSpreadsheet size={18} />
                     <span className="hidden md:inline">Excel</span>
                   </button>
-                  <button 
+                  <button
                     onClick={() => exportToPDF(filteredOrders)}
                     className="flex items-center gap-2 px-3 py-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all font-medium text-sm border border-red-200"
                     title="Exportar para PDF"
@@ -895,9 +895,9 @@ export default function App() {
               <div className="bg-white p-4 rounded-2xl shadow-sm border-2 border-slate-200 flex flex-col md:flex-row gap-4">
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                  <input 
-                    type="text" 
-                    placeholder="Pesquisar por tag, equipamento ou setor..." 
+                  <input
+                    type="text"
+                    placeholder="Pesquisar por tag, equipamento ou setor..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
@@ -905,13 +905,13 @@ export default function App() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Filter size={18} className="text-slate-400" />
-                  <select 
+                  <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value as any)}
                     className="px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
                   >
-                    <option value="all">Todas</option>
                     <option value="open">Abertas</option>
+                    <option value="all">Todas</option>
                     <option value="finished">Finalizadas</option>
                   </select>
                 </div>
@@ -947,20 +947,20 @@ export default function App() {
                           </div>
                         </div>
                         <div className="flex items-center gap-2 pt-4 border-t border-slate-100">
-                          <button 
+                          <button
                             onClick={() => setEditingOrder(order)}
                             className="flex-1 bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600 transition-all"
                           >
                             Editar
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDeleteOrder(order.id)}
                             className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
                           >
                             <Trash2 size={18} />
                           </button>
                           {order.status === 'open' && (
-                            <button 
+                            <button
                               onClick={() => setFinishingOrder(order)}
                               className="flex-1 bg-emerald-500 text-white py-2 rounded-lg font-semibold hover:bg-emerald-600 transition-all flex items-center justify-center gap-2"
                             >
@@ -1016,7 +1016,7 @@ export default function App() {
           )}
 
           {activeTab === 'database' && (
-            <motion.div 
+            <motion.div
               key="database"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1028,7 +1028,7 @@ export default function App() {
                   <h2 className="text-3xl font-bold text-slate-800">Estrutura do Banco de Dados</h2>
                   <p className="text-slate-500">Visualização técnica das tabelas e dados brutos</p>
                 </div>
-                <button 
+                <button
                   onClick={handleBackupDatabase}
                   className="flex items-center gap-2 bg-emerald-600 text-white font-medium px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/20"
                 >
@@ -1102,7 +1102,7 @@ export default function App() {
         {/* Edit Modal */}
         {editingOrder && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -1154,7 +1154,7 @@ export default function App() {
         {/* Finish Modal */}
         {finishingOrder && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -1179,19 +1179,19 @@ export default function App() {
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Assinatura do Manutentor (Digital)</label>
                   <div className="border border-slate-200 rounded-lg bg-slate-50 p-1 overflow-hidden">
-                    <canvas 
+                    <canvas
                       ref={signatureRef}
                       className="w-full h-[120px] cursor-crosshair touch-none bg-white rounded"
                       onMouseDown={(e) => {
                         const canvas = signatureRef.current;
                         if (!canvas) return;
-                        
+
                         // Set actual canvas resolution if not set yet
                         if (canvas.width !== canvas.offsetWidth) {
                           canvas.width = canvas.offsetWidth;
                           canvas.height = canvas.offsetHeight;
                         }
-                        
+
                         const ctx = canvas.getContext('2d');
                         if (!ctx) return;
                         ctx.beginPath();
@@ -1215,13 +1215,13 @@ export default function App() {
                       onTouchStart={(e) => {
                         const canvas = signatureRef.current;
                         if (!canvas) return;
-                        
+
                         // Set actual canvas resolution if not set yet
                         if (canvas.width !== canvas.offsetWidth) {
                           canvas.width = canvas.offsetWidth;
                           canvas.height = canvas.offsetHeight;
                         }
-                        
+
                         const ctx = canvas.getContext('2d');
                         if (!ctx) return;
                         const rect = canvas.getBoundingClientRect();
@@ -1246,8 +1246,8 @@ export default function App() {
                       }}
                     />
                   </div>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => {
                       const canvas = signatureRef.current;
                       if (canvas) {
@@ -1271,7 +1271,7 @@ export default function App() {
         {/* History Modal */}
         {historyTag && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -1315,7 +1315,7 @@ export default function App() {
         {/* Help Modal */}
         {showHelpModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -1372,7 +1372,7 @@ export default function App() {
                 </section>
               </div>
               <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
-                <button 
+                <button
                   onClick={() => setShowHelpModal(false)}
                   className="bg-slate-800 text-white px-6 py-2 rounded-lg font-bold hover:bg-slate-900 transition-all"
                 >
